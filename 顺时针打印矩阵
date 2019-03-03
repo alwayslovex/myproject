@@ -1,0 +1,62 @@
+class Solution {
+public:
+    vector<int> printMatrix(vector<vector<int> > matrix) {
+        vector<int> results;
+        int start_row = 0;
+        int end_row = matrix.size();
+        int start_col = 0;
+        int end_col = matrix[0].size();
+        int size = end_row;
+        
+        if(end_row == 1)
+        {
+            results = matrix[0];
+            return results;
+        }
+        if(end_col== 1)
+        {
+            for(int i = 0;i < end_row;++i)
+            {
+                results.push_back(matrix[i][0]);
+            }
+            
+            return results;
+        }
+        
+        while(start_row < end_row && start_col < end_col)
+        {
+            int r = start_row;
+            int c = start_col;
+            while(c < end_col)//---->1
+            {
+                results.push_back(matrix[r][c++]);
+            }
+            ++r;
+            if(r >= end_row)
+            {
+                break;
+            }
+            while(r < end_row )//    |
+            {
+                results.push_back(matrix[r++][end_col-1]);
+            }
+            c-=2;
+            while(c >= start_col)//<----
+            {
+                results.push_back(matrix[end_row-1][c--]);
+            }
+            r-=2;
+            while(r > start_row )
+            {
+                results.push_back(matrix[r--][start_col]);
+            }
+            start_col++;
+            start_row++;
+            end_row--;
+            end_col--;
+        }
+        return results;
+    }
+};
+//行不变，列变；行变，列不变；列变，行不变；行变，列不变。
+//
