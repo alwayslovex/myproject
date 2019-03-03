@@ -1,0 +1,67 @@
+/**
+ * Definition for binary tree
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    TreeNode* reConstructBinaryTree(vector<int> pre,vector<int> vin) {
+        if(pre.empty() || vin.empty())
+        {
+            return nullptr;
+        }
+        
+        TreeNode * tree_root = new TreeNode(pre[0]);
+        {
+            
+            for(int k = 0;k < vin.size();++k)
+            {
+                if(vin[k]==pre[0])
+                {
+                    vector<int> pre2;
+                    vector<int> vin2;
+            for(int jj=0;jj<k;jj++)
+ 
+            {
+                 {
+                pre2.push_back(pre[jj+1]);
+                     
+                 }
+ 
+                vin2.push_back(vin[jj]);//前序第一个为根节点
+ 
+            }
+             tree_root->left = reConstructBinaryTree(pre2,vin2);
+             
+            pre2.clear();
+            vin2.clear();
+            for(int ig=k+1;ig<vin.size();ig++)
+ 
+            {
+ 
+                pre2.push_back(pre[ig]);
+ 
+                vin2.push_back(vin[ig]);
+ 
+            }
+
+                    
+                    tree_root->right = reConstructBinaryTree(pre2,vin2);
+                    break;
+                }
+                else{
+                    continue;
+                }
+            }
+        }
+        return tree_root;
+    }
+};
+// . 1
+//2 . 
+//  4 
+//
