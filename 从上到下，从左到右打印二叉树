@@ -1,0 +1,39 @@
+/*
+struct TreeNode {
+	int val;
+	struct TreeNode *left;
+	struct TreeNode *right;
+	TreeNode(int x) :
+			val(x), left(NULL), right(NULL) {
+	}
+};*/
+#include<deque>
+//层次遍历
+class Solution {
+public:
+    vector<int> PrintFromTopToBottom(TreeNode* root) {
+        if(root == nullptr)
+        {
+            return vector<int>();
+        }
+        vector<int> res;
+        nodes.push_front(root);
+        while(!nodes.empty())
+        {
+            auto node = nodes.front();
+            nodes.pop_front();
+            res.push_back(node->val);
+            if(node->left != nullptr)
+            {
+                nodes.push_back(node->left);
+            }
+            if(node->right != nullptr)
+            {
+                 nodes.push_back(node->right);
+            }
+        }
+        return res;
+    }
+    
+    deque<TreeNode * > nodes;
+};
