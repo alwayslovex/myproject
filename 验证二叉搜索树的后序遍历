@@ -1,0 +1,65 @@
+
+//依据二叉搜索树后序遍历的规则，数组中的最后一个数一定是根，或者子树的根。
+//从左到右找出第一个比根大的数。那么这个数左边的是左子树，右边的是右子树。且左子树一定都是小于根的；
+//然后左右子树递归上面的步骤。
+class Solution {
+public:
+    bool VerifySquenceOfBST(vector<int> sequence) {
+        if(sequence.empty())
+        {
+            return false;
+        }
+        if(sequence.size() ==1 )
+        {
+            return true;
+        }
+        
+        int root = sequence.back();
+        //划分子树，右子
+        int index = Search(sequence,sequence.size()-1);
+        if(index == -2)
+        {
+            return false;
+        }
+        vector<int> left(sequence.begin()+index,sequence.end()-1);
+        vector<int> right(sequence.begin(),sequence.begin()+index);
+        bool bleft = left.empty() ? true : VerifySquenceOfBST(left);
+        bool bright = right.empty() ? true :VerifySquenceOfBST(right);
+        return  bleft&& bright;
+        
+    }
+    
+    int Search(vector<int> & nums,int end)
+    {
+        int i =0;
+        for(;i < end;++i)
+        {
+            if(nums[i] < nums[end])
+            {
+                continue;
+            }
+            else{
+                break;
+            }
+        }
+        if(i >= end)//没有找到，表示都是左子树
+        {
+            return end-1;//
+        }
+        bool b = true;
+        int j = i;
+        for(;i < end;++i)//验证，是否右子树都是大于根的。
+        {
+            if(nums[i] > nums[end])
+            {
+                continue;
+            }
+            b = false;
+        }
+        if(b)
+        {
+            return j;
+        }
+        return -2;
+    }
+};
