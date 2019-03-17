@@ -1,0 +1,43 @@
+/*
+struct TreeNode {
+	int val;
+	struct TreeNode *left;
+	struct TreeNode *right;
+	TreeNode(int x) :
+			val(x), left(NULL), right(NULL) {
+	}
+};*/
+#include <stack>
+class Solution {
+public:
+    vector<vector<int> > FindPath(TreeNode* root,int expectNumber) {
+        vector<vector<int> > ret;
+        if(root == nullptr)
+        {
+            return ret;
+        }
+        vector<int> path;
+        Find(root,expectNumber,0,ret,path);
+        return ret;
+    }
+    
+    void Find(TreeNode* root,int expectNumber,int curval,vector<vector<int>> & ret,vector<int> &path)
+    {
+        path.push_back(root->val);
+        curval += root->val;
+        if(root->left == nullptr && root->right == nullptr && curval == expectNumber)
+        {
+            ret.push_back(path);
+        }
+        if(root->left != nullptr)
+        {
+            Find(root->left,expectNumber,curval,ret,path);
+        }
+                if(root->right != nullptr)
+        {
+            Find(root->right,expectNumber,curval,ret,path);
+        }
+        
+        path.pop_back();
+    }
+};
