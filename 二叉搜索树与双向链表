@@ -1,0 +1,56 @@
+/*
+struct TreeNode {
+	int val;
+	struct TreeNode *left;
+	struct TreeNode *right;
+	TreeNode(int x) :
+			val(x), left(NULL), right(NULL) {
+	}
+};*/
+#include <queue>
+class Solution {
+public:
+    TreeNode* Convert(TreeNode* pRootOfTree)
+    {
+        if(pRootOfTree == nullptr)
+        {
+            return pRootOfTree;
+        }
+        queue<TreeNode* >res;
+        DFS(pRootOfTree,res);
+        auto head = res.front();
+        res.pop();
+        if(head != nullptr)
+        {
+           head->left = nullptr;
+           head->right = nullptr;
+        }
+        auto front = head;
+        while(!res.empty())
+        {
+            auto node = res.front();
+            res.pop();
+            front->right = node;
+            node->left = front;
+            front = front->right;
+        }
+        
+        return head;
+    }
+    void DFS(TreeNode * root,queue<TreeNode * > & res){
+        if(root == nullptr)
+        {
+            return ;
+        }
+        if(root->left != nullptr)
+        {
+            DFS(root->left,res);
+        }
+        res.push(root);
+        if(root->right != nullptr){
+            DFS(root->right,res);
+        }
+    }
+};
+//中序遍历
+//
