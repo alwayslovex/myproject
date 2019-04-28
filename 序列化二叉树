@@ -1,0 +1,73 @@
+/*
+struct TreeNode {
+    int val;
+    struct TreeNode *left;
+    struct TreeNode *right;
+    TreeNode(int x) :
+            val(x), left(NULL), right(NULL) {
+    }
+};
+请实现两个函数，分别用来序列化和反序列化二叉树
+所谓的序列化二叉树，就是将二叉树，按照先序遍历，将其保存成字符串的格式
+而反序列化就是将其还原
+某种符号表示空节点（#），其中使用了逗号，作为值的界限
+*/
+
+#include <string>
+#include <cstdlib>
+#include <cstdio>
+using namespace std;
+class Solution {
+public:
+    char* Serialize(TreeNode *root) { 
+        string res;
+        if(root == nullptr)
+        {
+            return nullptr;
+        }
+        Serialize(root,res);
+        char * res_char = new char[res.size()+1];
+        memset(res_char,0,res.size()+1);
+        strncpy(res_char,res.c_str(),res.size());
+        return res_char;
+    }
+    TreeNode* Deserialize(char *str) {
+        if(str == nullptr)
+        {
+            return nullptr;
+        }
+        int index=0;
+        return Deserialize(str,index);
+    }
+    TreeNode * Deserialize(char * str,int & index)
+    {
+        if(index >= strlen(str)||str[index] == '#' || str[index] =='\0')
+        {
+            index++;
+            return nullptr;
+        }
+        int num=0;
+        while(str[index] != '\0' && str[index] != ','){
+            num = num*10 + ((str[index]) - '0');
+            ++index;
+        }
+        
+        auto root = new TreeNode(num);
+        ++index;//防止逗号下面是#的情况发生
+        root->left = Deserialize(str,index);
+        root->right = Deserialize(str,index);
+        return root;
+    }
+    void Serialize(TreeNode* pRoot,string & res)
+    {
+        if(pRoot == nullptr)
+        {
+            res += "#";
+            return;
+        }
+        res += to_string(pRoot->val);
+        res += ",";
+        Serialize(pRoot->left,res);
+        Serialize(pRoot->right,res);
+    }
+};
