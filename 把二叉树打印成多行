@@ -1,0 +1,42 @@
+/*
+struct TreeNode {
+    int val;
+    struct TreeNode *left;
+    struct TreeNode *right;
+    TreeNode(int x) :
+            val(x), left(NULL), right(NULL) {
+    }
+};
+
+从上到下按层打印二叉树，同一层结点从左至右输出。每一层输出一行。
+思路就是，层次遍历，只是说要求一层一行。那么一层肯定是当前队列中的个数。。
+*/
+class Solution {
+public:
+        vector<vector<int> > Print(TreeNode* pRoot) {
+            queue<TreeNode*> que;
+            vector<vector<int>> res;
+            if(pRoot == nullptr)
+            {
+                return res;
+            }
+            que.push(pRoot);
+            while(!que.empty())
+            {
+                int quesize = que.size();
+                vector<int> r;
+                for(int i = 0;i < quesize;++i)
+                {
+                    TreeNode * pt = que.front();
+                    que.pop();
+                    r.push_back(pt->val);
+                    if(pt->left != nullptr)
+                        que.push(pt->left);
+                    if(pt->right != nullptr)
+                        que.push(pt->right);
+                }
+                res.push_back(r);
+            }
+            return res;
+        }
+};
