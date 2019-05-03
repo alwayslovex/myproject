@@ -1,0 +1,65 @@
+/*
+struct ListNode {
+    int val;
+    struct ListNode *next;
+    ListNode(int x) :
+        val(x), next(NULL) {
+    }//在一个排序的链表中，存在重复的结点，请删除该链表中重复的结点，重复的结点不保留，返回链表头指针。 例如，链表1->2->3->3->4->4->5 处理后为 1->2->5
+    //前驱指针。
+    //可以采用一种添加的方式，
+    //新建一个头节点。然后才用添加的方式，如果要添加的节点和等待添加的不等且没有重复过。将待添加的挂上
+};
+*/
+class Solution {
+public:
+    ListNode* deleteDuplication(ListNode* pHead)
+    {
+        ListNode * last,* nhead = nullptr;
+        last = nhead = new ListNode(-1);
+        if(pHead == nullptr ||pHead->next == nullptr)
+        {
+            return pHead;
+        }
+        auto tmp = pHead;
+        bool delete_last = false;
+        while(tmp != nullptr)
+        {
+            if(last->next == nullptr || last->next->val != tmp->val )
+            {
+                if(delete_last)//待添加的重复了要删掉。。
+                {
+                    delete last->next;
+                    last->next = tmp;
+                    delete_last = false;
+                }
+                else{
+                    if(last->next == nullptr)
+                    {
+                        last->next = tmp;
+                    }
+                    else{
+                        last = last->next;
+                        last->next = tmp;
+                    }
+                }
+
+                tmp = tmp->next;
+                last->next->next = nullptr;
+            }
+            else{
+                delete_last = true;
+                auto del = tmp;
+                tmp = del->next;
+                delete del;
+            }
+        }
+        if(delete_last)
+        {
+            delete last->next;
+            last->next = nullptr;
+        }
+        pHead = nhead->next;
+        delete nhead;
+        return pHead;
+    }
+};
