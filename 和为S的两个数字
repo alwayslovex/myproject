@@ -2,8 +2,28 @@
 
 class Solution {
 public:
+    //第二种思想。
     vector<int> FindNumbersWithSum(vector<int> array,int sum) {
-        
+        int i =0,j=array.size()-1;
+        vector<int> ret;
+        while(i < j)
+        {
+            int t_sum = array[i] + array[j];
+            if(t_sum == sum)
+            {
+                ret.push_back(array[i]);
+                ret.push_back(array[j]);
+                break;
+            }
+            if(t_sum < sum)
+            {
+                i++;
+            }
+            else{
+                j--;
+            }
+        }
+        return ret;
     }
 };
 
