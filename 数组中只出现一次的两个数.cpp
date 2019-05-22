@@ -9,3 +9,37 @@
 上面的那个算法的时间的复杂度是O（n）
 
 我的想法是，先将数组排序然后，再遍历寻找。
+
+class Solution {
+public:
+    void FindNumsAppearOnce(vector<int> data,int* num1,int *num2) {
+        int tmp=0;
+        for(auto & d : data)
+        {
+            tmp = tmp ^ d;
+        }
+        int i =0;
+        while(tmp > 0)
+        {
+            if((tmp & 1) == 1)
+            {
+                break;
+            }
+            tmp = tmp >> 1;
+            ++i;
+        }
+        i = 1 << i;
+        int n1=0,n2 = 0;
+        for(auto & d :data)
+        {
+            if((d & i) == i){
+                n1 = n1 ^ d;
+            }
+            else{
+                n2 = n2 ^ d;
+            }
+        }
+        *num1 = n1;
+        *num2 = n2;
+    }
+};
