@@ -13,3 +13,35 @@ public:
         return sum;
     }
 };
+
+
+class Solution {
+public:
+    int FindGreatestSumOfSubArray(vector<int> array) {
+        if(array.empty())
+        {
+            return 0;
+        }
+        int sum = array[0];
+        int tmp_sum=sum;
+        for(int i =1;i < array.size();++i)
+        {
+            int da = array[i];
+            if(tmp_sum + da >= sum)//当前数比上次提交的数大，则提交
+            {
+                tmp_sum += da;
+                sum = tmp_sum;
+            }
+            else{
+                tmp_sum += da;
+                if(tmp_sum < 0)//当前数变成负数，则丢弃掉。
+                {
+                    tmp_sum = 0;
+                }
+            }
+        }
+        return sum;
+    }
+};
+//如果加上下一个数，比我现在的数要大，那么就加上，并提交。
+//如果加上下一个数，不比我现在的数大，那么我先临时加上。并不真正提交,如果和为负数。则丢弃之前的
