@@ -6,7 +6,7 @@
  *     ListNode(int x) : val(x), next(NULL) {}
  * };
  *///单链表排序。由于是nlogn所以应该可以用归并排序。但是题目是要求是常数的空间复杂度所以不能用递归。
-//这个是非递归版的。
+//这个是非递归版的。参考https://yq.aliyun.com/articles/334408
 class Solution {
 public:
     int Getlen(ListNode * root){
