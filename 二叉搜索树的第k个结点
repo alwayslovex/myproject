@@ -10,7 +10,7 @@ struct TreeNode {
 
 给定一棵二叉搜索树，请找出其中的第k小的结点。例如， （5，3，7，2，4，6，8）    中，按结点数值大小顺序第三小结点的值为4。
 */
-//比较笨的方法是，前序遍历。
+//比较笨的方法是，中序遍历。
 class Solution {
 public:
     TreeNode* KthNode(TreeNode* pRoot, int k)
@@ -38,6 +38,7 @@ public:
         }
         Search(pRoot->left,res);
         res.push_back(pRoot);
+        //if(){},这里可以加个判断，如果数量够了就不用继续找了。
         Search(pRoot->right,res);
     }
 };
