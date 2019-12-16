@@ -5,3 +5,25 @@
 排序规则是
 a+b < b+a 则a < b
 3 32 排序 3 + 32 = 332 32+3 = 323则32 < 3
+
+class Solution {
+public:
+    //比较两个数大小的函数用于升序排列。
+    static bool Compare(int a, int b)
+    {
+        string sa = to_string(a);
+        string sb = to_string(b);
+        if(sa + sb < sb+sa){
+            return true;
+        }
+        return false;
+    }
+    string PrintMinNumber(vector<int> numbers) {
+        sort(numbers.begin(),numbers.end(),Compare);
+        string res;
+        for(auto & e : numbers){
+            res += to_string(e);
+        }
+        return res;
+    }
+};
