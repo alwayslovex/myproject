@@ -1,0 +1,63 @@
+/**
+ * Definition for a point.
+ * struct Point {
+ *     int x;
+ *     int y;
+ *     Point() : x(0), y(0) {}
+ *     Point(int a, int b) : x(a), y(b) {}
+ * };
+ //两个for循环，分别计算一个点到每个点的斜率。
+ //处理斜率为0的和同一个点。
+ //对于给定的n个位于同一二维平面上的点，求最多能有多少个点位于同一直线上
+
+ */
+#include <map>
+using namespace std;
+class Solution {
+public:
+    int maxPoints(vector<Point> &points) {
+        if(points.empty()) return 0;
+        if(points.size() == 1) return 1;
+        int max =2;
+        for(auto i = 0;i< points.size();++i){
+            int repeat = 0;
+            int curmax = 1;//本次循环，的最大值。
+            map<string,int> k_cnt;
+            for(auto j = i+1;j < points.size();++j){
+                int k = points[j].y - points[i].y;
+                int h = points[j].x - points[i].x;
+                if(h != 0){
+                    double g = 1.0*k/h;
+                    if(k == 0){//这里有个问题，就是double有0 和 -0的区别，如果转成字符串的话，
+                        //会带符号，但是直接比较他们是相等的。
+                      g =0;
+                    }
+                    string gs = to_string(g);
+                    if(k_cnt.find(gs) != k_cnt.end()){
+                        k_cnt[gs]+=1;
+                    }else{
+                        k_cnt[gs] =2;
+                    }
+                }else if(k == 0){
+                    repeat++;
+                }else{
+                    if(k_cnt.find("") != k_cnt.end()){
+                        k_cnt[""] +=1;
+                    }else{
+                        k_cnt[""] =2;
+                    }
+                }
+             }
+
+            for(auto it = k_cnt.begin();it != k_cnt.end();++it){
+                if(it->second > curmax){
+                    curmax = it->second;
+                }
+            }
+            if(max < curmax+repeat){
+                max = curmax + repeat;
+            }
+        }
+        return max;
+    }
+};
