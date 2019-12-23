@@ -1,0 +1,39 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ //判断一个链表是否有环，返回环的入口。
+ //快慢指针，如果有环一定会相遇，相遇时，一个从起点，一个从相遇点同时出发，再次相遇就是环。
+ */
+class Solution {
+public:
+    ListNode *detectCycle(ListNode *head) {
+        if(head == nullptr){
+            return head;
+        }
+        ListNode * fast = head->next;
+        ListNode * slow = head;
+        while(fast != nullptr && slow != nullptr && slow != fast){
+            slow = slow->next;
+            fast = fast->next;
+            if(fast != nullptr && slow != fast){
+                fast = fast->next;
+            }
+        }
+        if(fast ==nullptr || slow == nullptr){
+            return nullptr;
+        }
+        slow= head;
+        while(slow != fast){
+            fast = fast->next;
+            if(slow == fast){//避免整个链表就是一个环的情况。
+                break;
+            }
+            slow = slow->next;
+        }
+        return slow;
+    }
+};
