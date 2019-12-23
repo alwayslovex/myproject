@@ -1,0 +1,67 @@
+class Solution {
+public:
+    int Getlen(ListNode * root){
+        int cnt = 0;
+        while(root != nullptr){
+            cnt++;
+            root = root->next;
+        }
+        return cnt;
+    }
+    ListNode * sortList(ListNode *head) {
+        if(head == nullptr){
+            return nullptr;
+        }
+        ListNode tmp(0);
+        tmp.next = head;
+        int len = Getlen(head);
+        for(int i = 1;i < len;i*=2){
+            ListNode * pre = &tmp;
+            ListNode * left = tmp.next;
+            ListNode * right = tmp.next;
+
+            while(left != nullptr || right != nullptr){
+            
+                for(int j =0;j < i && right != nullptr;++j){
+                    right = right->next;
+                }
+
+                int start1 = 0;
+                int start2 = 0;
+
+                while(start1 < i && start2 < i && left != nullptr && right != nullptr){
+                    if(left->val >= right->val){
+                            pre->next = right;
+                            right = right->next;
+                            pre = pre->next;
+                            pre->next = nullptr;
+                            start2++;
+                    }else{
+                            pre->next = left;
+                            left = left->next;
+                            pre = pre->next;
+                            pre->next = nullptr;
+                            start1++;
+                    }
+                }
+                while(start1 < i && left != nullptr){
+                    pre->next = left;
+                    start1++;
+                    left = left->next;
+                                pre = pre->next;
+
+                }
+                while(start2 < i && right != nullptr){
+                    pre->next = right;
+                    start2++;
+                    right = right->next;
+                    pre = pre->next;
+                }
+                
+                left = right;
+                pre->next = right;
+            }
+        }
+        return tmp.next;
+    }
+};
