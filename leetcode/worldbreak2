@@ -1,0 +1,21 @@
+class Solution {
+public://倒着找，进行递归
+vector<string> wordBreak(string s, unordered_set<string> &dict) {
+       vector<string> res;
+       if(dict.find(s) != dict.end())    res.push_back(s);
+ 
+       int len = s.size();
+       for(int i=1; i< len; ++i){
+           string word = s.substr(i);
+           if(dict.find(word) == dict.end()) continue;
+           //word 在字典中找到
+           vector<string> tempRes = wordBreak(s.substr(0, i), dict);
+           Combine(tempRes, word);
+           res.insert(res.begin(), tempRes.begin(), tempRes.end());
+       }
+       return res;
+   }
+   void Combine(vector<string>& v, const string& str){
+       for(auto& e : v)  { e +=" " + str;}
+   }
+};
