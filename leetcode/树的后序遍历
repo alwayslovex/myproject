@@ -1,0 +1,41 @@
+/**
+ * Definition for binary tree
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ 树的后序遍历(左右根），非迭代。用栈
+ */
+class Solution {
+public:
+    vector<int> postorderTraversal(TreeNode *root) {
+        vector<int> res;
+        if(root == nullptr){
+            return res;
+        }
+        TreeNode * pre = nullptr;
+        stack<TreeNode*> st;
+        st.push(root);
+        while(!st.empty()){ 
+            auto tmp = st.top();
+
+            if((tmp->left == nullptr && tmp->right == nullptr)|| (pre != nullptr && (tmp->right == pre || tmp->left == pre))){
+                res.push_back(tmp->val);
+                st.pop();
+                pre = tmp;
+                continue;
+            }
+            if(tmp->right != nullptr && tmp->right != pre){
+                st.push(tmp->right);
+            }
+            
+            if(tmp->left != nullptr && tmp->left != pre)
+            {
+                st.push(tmp->left);
+            }
+        }
+        return res;
+    }
+};
