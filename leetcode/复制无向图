@@ -1,0 +1,45 @@
+/**
+ * Definition for undirected graph.
+ * struct UndirectedGraphNode {
+ *     int label;
+ *     vector<UndirectedGraphNode *> neighbors;
+ *     UndirectedGraphNode(int x) : label(x) {};
+ * };
+ */
+class Solution {
+public:
+    UndirectedGraphNode *cloneGraph(UndirectedGraphNode *node) {
+        unordered_map<int,UndirectedGraphNode *> flags;
+        unordered_map<int,int> flags2;
+        stack<UndirectedGraphNode * > st;
+        if(node == nullptr){
+            return nullptr;
+        }
+        st.push(node);
+        while(!st.empty()){
+            auto n = st.top();
+            st.pop();
+            flags2[n->label] =1;//防止二次进栈
+            if(flags.find(n->label) == flags.end()){
+                flags[n->label] = new UndirectedGraphNode(n->label);
+            }
+            for(auto & k : n->neighbors)
+            {
+                auto it = flags.find(k->label);
+                if(it == flags.end()){
+                    auto p = new UndirectedGraphNode(k->label);
+                    flags[k->label] = p;
+                    flags[n->label]->neighbors.push_back(p);
+                }else{
+                    flags[n->label]->neighbors.push_back(it->second);
+                }
+                if(k->label == n->label || flags2.count(k->label) > 0){//防止自环，引发的死循环
+                    continue;
+                }
+                st.push(k);
+                flags2[k->label] =1;//防止二次进栈
+            }
+        }
+        return flags[node->label];
+    }
+};
