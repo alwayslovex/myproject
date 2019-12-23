@@ -1,0 +1,32 @@
+class Solution {
+public:
+    int singleNumber(int A[], int n) {
+        int one = 0;
+        int two = 0;
+        int three = 0;
+        
+        for(int i = 0;i < n;++i)
+        {
+            int curnum = A[i];
+            two |= one & curnum;
+            one = one ^ curnum;
+            three = one & two;
+            one &= ~three;
+            two &= ~three;
+        }
+        return one;
+    }
+};
+/*
+用3个数表表示进位
+one 
+two
+three
+
+那么逻辑就变成了，先找出当前数与已经出现一次的数中又出现的位，那么这个表示出现了两次了。方法是one & curnum
+对于出现两次的位，需要在two中标记一下，也就是置为1 方法是： two |=one&curnum
+然后这里要赋值给one，one = one ^ curnum,注意这个是出现一次的位，所以需要将已经进位的了置为0
+在上面的计算中，只是把出现两次的位给标记下，那么该计算出现三次的位：one & two 
+然后将three中对应的位给置为1 ： three = one &two
+然后将出现3次的位给消掉,即相同位0，不同的保留，one &= ~three,two &= ～three
+*/
