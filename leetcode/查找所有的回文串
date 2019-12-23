@@ -1,0 +1,32 @@
+//使用深度优先遍历来完成。
+class Solution {
+public:
+    vector<vector<string>> partition(string s) {
+        vector<vector<string>> res;
+        int start = 0;
+        vector<string> out;
+        DFS(res,start,s,out);
+        return res;
+    }
+    bool IsPalid(string str){
+        string str2(str.rbegin(),str.rend());
+        return str2 == str;
+    }
+    
+    void DFS(vector<vector<string>> & res,int start,string &s,vector<string> & out){
+        if(start == s.size()){
+            res.push_back(out);
+            return;
+        }
+        
+        for(int i = start;i < s.size();++i){
+            string substr = s.substr(start,i-start+1);
+            if(IsPalid(substr)){
+                out.push_back(substr);//当前位置是一个回文串，去分割其余的。放到结果里面。
+                DFS(res,i+1,s,out);
+                out.pop_back();//弹出，是因为当前结果用了。需要重新找到下个回文串。
+            }
+        }
+        return;
+    }
+};
