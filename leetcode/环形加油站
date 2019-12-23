@@ -1,0 +1,32 @@
+class Solution {
+public:
+    //i 表示当前站点。cost[i] 表示到下个站点的耗油。
+    int canCompleteCircuit(vector<int> &gas, vector<int> &cost) {
+        if(gas.empty())
+        {
+            return -1;
+        }
+        
+        int start = gas.size()-1;
+        int end = 0;
+        int sum = gas[start] - cost[start];
+        while(start > end){
+            if(sum > 0){
+                sum += gas[end] - cost[end];
+                                ++end;
+            }else{
+                --start;
+                sum += gas[start] -cost[start];
+            }
+        }
+        
+        if(start == end && sum >= 0){
+            return start;
+        }
+        return -1;
+    }
+};
+//从第i个点开始，curgas < cos[i] 加油：curgas + gas[i];
+//curgas >= cos[i] 不加油。
+//curgas + gas[i] < cost[i] 换开始点。
+
