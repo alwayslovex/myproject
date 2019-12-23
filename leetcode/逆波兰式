@@ -1,0 +1,62 @@
+#include<string>
+#include<stack>
+using namespace std;
+
+class Solution {
+public:
+    int evalRPN(vector<string> &tokens) {
+        if(tokens.empty())
+            return 0;
+        stack<int> st;
+        for(auto & x : tokens){
+            if(x == "+"){
+                if(st.size() < 2)
+                    return 0;
+                int o1 = st.top();
+                st.pop();
+                int o2 = st.top();
+                st.pop();
+                int a = o1+o2;
+                st.push(a);
+            }
+            else if(x == "-"){
+                if(st.size() < 2)
+                    return 0;
+                int o1 = st.top();
+                st.pop();
+                int o2 = st.top();
+                st.pop();
+                int a = o2-o1;
+                st.push(a);
+            }
+            else if(x == "*"){
+                if(st.size() < 2)
+                    return 0;
+                int o1 = st.top();
+                st.pop();
+                int o2 = st.top();
+                st.pop();
+                int a = o2 * o1;
+                st.push(a);
+            }
+            else if(x == "/"){
+                if(st.size() < 2)
+                    return 0;
+                int o1 = st.top();
+                st.pop();
+                int o2 = st.top();
+                st.pop();
+                if(o1 == 0){
+                    return 0;
+                }
+                int a = o2/o1;
+                st.push(a);
+            }
+            else{
+                st.push(stoi(x));
+            }
+        }
+        int re = st.top();
+        return re;
+    }
+};
