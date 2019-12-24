@@ -1,0 +1,41 @@
+/**
+ * Definition for binary tree
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    int maxPathSum(TreeNode *root) {
+        
+        //如果只有一个结点，那么直接返回
+        if(root == nullptr) return 0;
+        if(root->left == nullptr && root->right == nullptr) return root->val;
+        maxv = INT_MIN;
+        Sum(root);
+        return maxv;
+    }
+    int maxv = 0;
+    //以根为终点计算最大值
+    int Sum(TreeNode * root){
+        if(root==nullptr){
+            return INT_MIN;
+        }
+        int leftret = 0;//来规避掉负数
+        if(root->left != nullptr){//计算左树的最大值
+            leftret = Sum(root->left);
+            leftret = max(0,leftret);
+        }
+        int rightret= 0;
+        if(root->right != nullptr){//计算右树的最大值
+            rightret = Sum(root->right);
+            rightret = max(0,rightret);
+        }
+        maxv = max(maxv,rightret+leftret+root->val);//计算当前左右和根想比的最大值
+        return leftret > rightret ? leftret+root->val : rightret+root->val;//返回当前的结点的最大路径和
+    }
+    
+};
