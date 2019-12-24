@@ -1,0 +1,41 @@
+class Solution {
+public:
+    int longestConsecutive(vector<int> &num) {
+        if(num.size() <= 1){
+            return num.size();
+        }
+        set<int> nums;
+        nums.insert(num.begin(),num.end());
+        int maxsum = 1;
+        for(auto & x : num){
+            auto it = nums.find(x);
+            if(it != nums.end()){
+                int sum = 1;
+                nums.erase(it);
+                int val = x+1;
+                while(nums.count(val)){
+                    sum += 1;
+                    nums.erase(val);
+                    val = val+1;
+                }
+                val = x-1;
+                while(nums.count(val)){
+                    sum+=1;
+                    nums.erase(val);
+                    val -=1;
+                }
+                if(sum > maxsum){
+                    maxsum = sum;
+                }
+            }
+        }
+        return maxsum;
+    }
+};
+//1 2 3 4 100 200
+//排序。首尾做比较，差大于长度的肯定不是这个首尾，看谁的下一个连续，如果都不连续，则舍弃。
+//但是这个不是O（N）
+
+//讨论区中看到了一种不错的想法
+//将所有的数放到集合中。便利数组，如果能在集合中找到该数的头尾，则长度扩展，否则不扩展。
+
