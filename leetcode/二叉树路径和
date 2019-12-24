@@ -1,0 +1,37 @@
+/**
+ * Definition for binary tree
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ * 就是简单的二叉树的深度便利，便利到叶子结点时直接返回值。对于非叶子结点，左右计算完了
+ 直接返回二者的相加值到上层即可。即返回的是累加和
+ */
+class Solution {
+public:
+    int sumNumbers(TreeNode *root) {
+        return DFS(root,0);
+    }
+    int DFS(TreeNode * root,int cursum){
+        if(root == nullptr){
+            return cursum;
+        }
+        cursum *= 10;
+        cursum += root->val;
+        int cursum1 = 0;
+        if(root->left == nullptr && root->right == nullptr){
+            return cursum;
+        }
+        if(root->left != nullptr){
+            cursum1 = DFS(root->left,cursum);
+        }
+        
+        if(root->right != nullptr){
+            cursum1 += DFS(root->right,cursum);
+        }
+        cursum = cursum1;
+        return cursum;
+    }
+};
