@@ -1,0 +1,30 @@
+/*
+中序遍历，然后保证增序
+*/
+
+class Solution {
+public:
+    bool isValidBST(TreeNode *root) {
+        if(root == nullptr){
+            return true;
+        }
+        
+        vector<int> res;
+        func(res,root);
+        for(int i = 1;i < res.size();++i){
+            if(res[i] <= res[i-1]){
+                return false;
+            }
+        }
+        return true;
+    }
+    void func(vector<int> & res,TreeNode * root){
+        if(root->left != nullptr){
+            func(res,root->left);
+        }
+        res.push_back(root->val);
+        if(root->right != nullptr){
+            func(res,root->right);
+        }
+    }
+};
